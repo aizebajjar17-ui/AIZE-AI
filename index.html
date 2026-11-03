@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#100d20"><link rel="manifest" href="manifest.json">
+<title>AIZE AI</title>
+<style>
+:root{--bg:#0b0914;--panel:#171327;--muted:#aaa3bf;--purple:#9b5cff;--blue:#4c8dff}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 80% 0,#29204a 0,transparent 35%),var(--bg);color:#fff;font:15px system-ui,Arial}
+header{padding:20px 18px 12px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-size:23px;font-weight:800;letter-spacing:1px}.logo span{color:#b78aff}
+.badge{font-size:11px;color:#cbb7ff;border:1px solid #62459a;padding:5px 9px;border-radius:20px}
+main{max-width:760px;margin:auto;padding:8px 16px 100px}
+h1{font-size:27px;margin:14px 0 5px}p.sub{color:var(--muted);margin:0 0 20px}
+.search{background:var(--panel);border:1px solid #382b58;border-radius:18px;padding:12px;display:flex;gap:8px}
+textarea{flex:1;resize:none;background:transparent;border:0;outline:0;color:white;font:inherit;min-height:48px}
+button{border:0;color:white;background:linear-gradient(135deg,var(--purple),var(--blue));border-radius:13px;padding:11px 15px;font-weight:700}
+h2{font-size:17px;margin:25px 0 12px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:11px}
+.card{background:linear-gradient(145deg,#1b1630,#12101e);border:1px solid #302647;border-radius:16px;padding:15px;min-height:96px;text-align:left}
+.card b{display:block;margin:8px 0 3px}.card small{color:var(--muted)}
+.icon{font-size:22px}
+#reply{display:none;margin-top:16px;background:#171327;border:1px solid #382b58;border-radius:16px;padding:15px;white-space:pre-wrap;line-height:1.5}
+.note{font-size:12px;color:#9e96b2;margin:18px 2px}
+nav{position:fixed;bottom:0;left:0;right:0;background:#100d20ee;border-top:1px solid #302647;display:flex;justify-content:space-around;padding:12px 5px calc(12px + env(safe-area-inset-bottom));backdrop-filter:blur(12px)}
+nav span{font-size:12px;color:#c9c1da;text-align:center}
+@media(min-width:600px){.grid{grid-template-columns:repeat(3,1fr)}}
+</style>
+</head>
+<body>
+<header><div class="logo">✦ AIZE <span>AI</span></div><div class="badge">ALL-IN-ONE ASSISTANT</div></header>
+<main>
+<h1>What can I help you with?</h1><p class="sub">Ask a question or choose an AI tool to get started.</p>
+<div class="search"><textarea id="question" placeholder="Message AIZE AI..."></textarea><button onclick="ask()">Send ➤</button></div>
+<div id="reply"></div>
+<h2>Explore AI tools</h2>
+<div class="grid">
+<button class="card" onclick="choose('Explain a topic in simple words: ')"><span class="icon">🤖</span><b>AI Chat</b><small>Ask questions and learn</small></button>
+<button class="card" onclick="choose('Help me search for reliable information about: ')"><span class="icon">🌐</span><b>Web Research</b><small>Research assistant (connect search API)</small></button>
+<button class="card" onclick="choose('Create an image prompt for: ')"><span class="icon">🎨</span><b>Image Studio</b><small>Image prompts and generation</small></button>
+<button class="card" onclick="choose('Help me understand this PDF: ')"><span class="icon">📄</span><b>PDF Reader</b><small>Summarize documents</small></button>
+<button class="card" onclick="choose('Translate this into Urdu, Hindi and English: ')"><span class="icon">🌍</span><b>Translator</b><small>Multilingual help</small></button>
+<button class="card" onclick="choose('Help me solve this maths problem step by step: ')"><span class="icon">➗</span><b>Math Solver</b><small>Step-by-step explanations</small></button>
+<button class="card" onclick="choose('Help me write code for: ')"><span class="icon">💻</span><b>Coding</b><small>Learn and debug code</small></button>
+<button class="card" onclick="choose('Write an original song about: ')"><span class="icon">🎵</span><b>Song Writer</b><small>Original lyrics and ideas</small></button>
+<button class="card" onclick="choose('Write a short video script about: ')"><span class="icon">🎬</span><b>Video Studio</b><small>Scripts and storyboards</small></button>
+<button class="card" onclick="choose('Help me practise speaking about: ')"><span class="icon">🎤</span><b>Voice Assistant</b><small>Voice features (browser support)</small></button>
+</div>
+<p class="note">Demo version: this interface works on your phone, but live AI answers, web search, image generation and PDF processing need secure service/API connections. Never put a private API key inside this webpage.</p>
+</main>
+<nav><span>⌂<br>Home</span><span>✦<br>AI Tools</span><span>◷<br>History</span><span>⚙<br>Settings</span></nav>
+<script>
+function choose(prefix){const q=document.getElementById('question');q.value=prefix;q.focus()}
+function ask(){
+ const q=document.getElementById('question').value.trim(), box=document.getElementById('reply');
+ if(!q){box.style.display='block';box.textContent='Please type a question first.';return}
+ box.style.display='block';
+ box.textContent='AIZE AI demo\\n\\nYour question: '+q+'\\n\\nThis is the app prototype. To generate real AI answers, the next step is connecting a secure AI backend. Your API key must stay on the server, not in this app.';
+}
+if('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(()=>{});
+</script>
+</body></html>
