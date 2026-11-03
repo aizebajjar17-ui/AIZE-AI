@@ -1,0 +1,9 @@
+{
+  "name": "AIZE AI",
+  "short_name": "AIZE AI",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0b0914",
+  "theme_color": "#100d20",
+  "icons": []
+}
