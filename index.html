@@ -1,310 +1,304 @@
-<!doctype html>
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#050805">
-<link rel="manifest" href="manifest.json">
 <title>AIZE AI</title>
+<link rel="manifest" href="manifest.json">
 
 <style>
-:root{
+:root {
   --bg:#050805;
   --panel:#101810;
-  --muted:#a5b3a5;
   --green:#39ff14;
-  --green2:#19c900;
+  --muted:#a5b3a5;
+  --border:#243324;
 }
-
-*{box-sizing:border-box}
-
-body{
+* { box-sizing:border-box; }
+body {
   margin:0;
-  background:radial-gradient(circle at 80% 0,#123018 0,transparent 35%),var(--bg);
-  color:#fff;
-  font:15px system-ui,Arial;
+  background:var(--bg);
+  color:white;
+  font-family:Arial,sans-serif;
 }
-
-header{
-  padding:20px 18px 12px;
+header {
+  padding:20px;
+  border-bottom:1px solid var(--border);
   display:flex;
-  align-items:center;
   justify-content:space-between;
-  gap:10px;
+  align-items:center;
 }
-
-.logo{
-  font-size:23px;
-  font-weight:800;
-  letter-spacing:1px;
-}
-
-.logo span{color:var(--green)}
-
-.badge{
-  font-size:11px;
+.logo {
   color:var(--green);
-  border:1px solid #245c24;
-  padding:5px 9px;
-  border-radius:20px;
+  font-size:25px;
+  font-weight:bold;
 }
-
-main{
-  max-width:760px;
+.tag { color:var(--muted); font-size:11px; }
+main {
+  max-width:850px;
   margin:auto;
-  padding:8px 16px 100px;
+  padding:20px;
+  padding-bottom:90px;
 }
-
-h1{
-  font-size:27px;
-  margin:14px 0 5px;
-}
-
-p.sub{
-  color:var(--muted);
-  margin:0 0 20px;
-}
-
-.search{
+h1 { font-size:30px; }
+.green { color:var(--green); }
+.subtitle { color:var(--muted); }
+.chat {
   background:var(--panel);
-  border:1px solid #245c24;
-  border-radius:18px;
-  padding:12px;
-  display:flex;
-  gap:8px;
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:15px;
+  margin-top:22px;
 }
-
-textarea{
-  flex:1;
-  resize:none;
-  background:transparent;
-  border:0;
-  outline:0;
+textarea {
+  width:100%;
+  min-height:110px;
+  resize:vertical;
+  background:#080d08;
   color:white;
-  font:inherit;
-  min-height:48px;
-  min-width:0;
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:14px;
+  font-size:16px;
+  outline:none;
 }
-
-button{
-  border:0;
-  color:#000;
-  background:linear-gradient(135deg,var(--green),var(--green2));
-  border-radius:13px;
-  padding:11px 15px;
-  font-weight:700;
+textarea:focus { border-color:var(--green); }
+button {
   cursor:pointer;
+  border:0;
+  border-radius:10px;
+  padding:13px;
+  font-weight:bold;
 }
-
-.grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:11px;
+.send {
+  width:100%;
+  margin-top:10px;
+  background:var(--green);
+  color:#001000;
+  font-size:16px;
 }
-
-.card{
-  background:linear-gradient(145deg,#142414,#0b120b);
-  border:1px solid #245c24;
-  border-radius:16px;
-  padding:15px;
-  min-height:96px;
-  text-align:left;
-  color:white;
-}
-
-.card:active{
-  transform:scale(.97);
-}
-
-.card b{
-  display:block;
-  margin:8px 0 3px;
-}
-
-.card small{
-  color:var(--muted);
-}
-
-.icon{font-size:22px}
-
-#reply{
+#reply {
   display:none;
-  margin-top:16px;
-  background:#101810;
-  border:1px solid #245c24;
-  border-radius:16px;
-  padding:15px;
   white-space:pre-wrap;
-  line-height:1.5;
   overflow-wrap:anywhere;
+  line-height:1.6;
+  margin-top:15px;
+  padding:14px;
+  background:#080d08;
+  border:1px solid var(--border);
+  border-radius:10px;
 }
-
-.note{
+h2 { margin-top:32px; }
+.tools {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px;
+}
+.card {
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:13px;
+  padding:17px;
+  color:white;
+  text-align:left;
+  min-height:95px;
+}
+.card:active { border-color:var(--green); }
+.card b {
+  display:block;
+  margin:8px 0;
+  color:var(--green);
+}
+.card small { color:var(--muted); }
+.note {
+  color:var(--muted);
   font-size:12px;
-  color:#9eaa9e;
-  margin:18px 2px;
+  line-height:1.6;
+  margin-top:25px;
 }
-
-nav{
+nav {
   position:fixed;
   bottom:0;
   left:0;
   right:0;
-  background:#050805ee;
-  border-top:1px solid #245c24;
   display:flex;
   justify-content:space-around;
-  padding:12px 5px calc(12px + env(safe-area-inset-bottom));
-  backdrop-filter:blur(12px);
-}
-
-nav span{
+  background:#101810;
+  border-top:1px solid var(--border);
+  padding:15px 5px;
+  color:var(--green);
   font-size:12px;
-  color:#c9d5c9;
-  text-align:center;
 }
-
-@media(min-width:600px){
-  .grid{grid-template-columns:repeat(3,1fr)}
+@media(min-width:650px) {
+  .tools { grid-template-columns:repeat(3,1fr); }
 }
 </style>
 </head>
 
 <body>
-
 <header>
-  <div class="logo">✦ AIZE <span>AI</span></div>
-  <div class="badge">ALL-IN-ONE ASSISTANT</div>
+  <div>
+    <div class="logo">✦ AIZE AI</div>
+    <div class="tag">ALL-IN-ONE AI ASSISTANT</div>
+  </div>
+  <div class="green">● ONLINE</div>
 </header>
 
 <main>
+  <h1>What can I <span class="green">help you with?</span></h1>
+  <p class="subtitle">Ask anything. Learn, create and explore with AIZE AI.</p>
 
-<h1>What can I help you with?</h1>
-<p class="sub">Ask a question or choose an AI tool to get started.</p>
+  <section class="chat">
+    <textarea id="question" placeholder="Ask AIZE AI anything..."></textarea>
+    <button class="send" onclick="ask()">Send ➤</button>
+    <div id="reply"></div>
+  </section>
 
-<div class="search">
-  <textarea id="question" placeholder="Message AIZE AI..."></textarea>
-  <button onclick="ask()">Send ➤</button>
-</div>
+  <h2>Explore <span class="green">AI Tools</span></h2>
 
-<div id="reply"></div>
+  <div class="tools">
+    <button class="card" onclick="choose('Explain this topic: ')">
+      <span>🤖</span>
+      <b>AI Chat</b>
+      <small>Ask questions and learn</small>
+    </button>
 
-<h2>Explore AI tools</h2>
+    <button class="card" onclick="choose('Research this topic: ')">
+      <span>🌐</span>
+      <b>Web Research</b>
+      <small>Research assistant</small>
+    </button>
 
-<div class="grid">
+    <button class="card" onclick="choose('Create an image prompt about: ')">
+      <span>🎨</span>
+      <b>Image Studio</b>
+      <small>Image ideas and prompts</small>
+    </button>
 
-<button class="card" onclick="choose('Explain a topic in simple words: ')">
-  <span class="icon">🤖</span>
-  <b>AI Chat</b>
-  <small>Ask questions and learn</small>
-</button>
+    <button class="card" onclick="choose('Help me understand this PDF: ')">
+      <span>📄</span>
+      <b>PDF Reader</b>
+      <small>Document assistance</small>
+    </button>
 
-<button class="card" onclick="choose('Help me search for reliable information about: ')">
-  <span class="icon">🌐</span>
-  <b>Web Research</b>
-  <small>Research assistant</small>
-</button>
+    <button class="card" onclick="choose('Translate this text: ')">
+      <span>🌍</span>
+      <b>Translator</b>
+      <small>Multilingual help</small>
+    </button>
 
-<button class="card" onclick="choose('Create an image prompt for: ')">
-  <span class="icon">🎨</span>
-  <b>Image Studio</b>
-  <small>Image prompts and generation</small>
-</button>
+    <button class="card" onclick="choose('Solve this maths problem step by step: ')">
+      <span>➗</span>
+      <b>Math Solver</b>
+      <small>Math explanations</small>
+    </button>
 
-<button class="card" onclick="choose('Help me understand this PDF: ')">
-  <span class="icon">📄</span>
-  <b>PDF Reader</b>
-  <small>Summarize documents</small>
-</button>
+    <button class="card" onclick="choose('Help me write code for: ')">
+      <span>💻</span>
+      <b>Coding</b>
+      <small>Learn programming</small>
+    </button>
 
-<button class="card" onclick="choose('Translate this into Urdu, Hindi and English: ')">
-  <span class="icon">🌍</span>
-  <b>Translator</b>
-  <small>Multilingual help</small>
-</button>
+    <button class="card" onclick="choose('Write an original song about: ')">
+      <span>🎵</span>
+      <b>Song Writer</b>
+      <small>Original songs and lyrics</small>
+    </button>
 
-<button class="card" onclick="choose('Help me solve this maths problem step by step: ')">
-  <span class="icon">➗</span>
-  <b>Math Solver</b>
-  <small>Step-by-step explanations</small>
-</button>
+    <button class="card" onclick="choose('Write a short video script about: ')">
+      <span>🎬</span>
+      <b>Video Studio</b>
+      <small>Scripts and storyboards</small>
+    </button>
 
-<button class="card" onclick="choose('Help me write code for: ')">
-  <span class="icon">💻</span>
-  <b>Coding</b>
-  <small>Learn and debug code</small>
-</button>
+    <button class="card" onclick="choose('Help me practise speaking about: ')">
+      <span>🎙️</span>
+      <b>Voice Assistant</b>
+      <small>Speaking practice</small>
+    </button>
+  </div>
 
-<button class="card" onclick="choose('Write an original song about: ')">
-  <span class="icon">🎵</span>
-  <b>Song Writer</b>
-  <small>Original lyrics and ideas</small>
-</button>
-
-<button class="card" onclick="choose('Write a short video script about: ')">
-  <span class="icon">🎬</span>
-  <b>Video Studio</b>
-  <small>Scripts and storyboards</small>
-</button>
-
-<button class="card" onclick="choose('Help me practise speaking about: ')">
-  <span class="icon">🎤</span>
-  <b>Voice Assistant</b>
-  <small>Voice features</small>
-</button>
-
-</div>
-
-<p class="note">
-Demo version: This interface works on your phone. Real AI answers,
-web search, image generation and PDF processing need secure backend
-connections. Never put a private API key inside this webpage.
-</p>
-
+  <p class="note">
+    AIZE AI uses a secure backend for AI answers.
+    Image generation, live web research, PDF uploads and voice features
+    need their own service connections. Never put a private API key
+    inside this webpage.
+  </p>
 </main>
 
 <nav>
-  <span>⌂<br>Home</span>
-  <span>✦<br>AI Tools</span>
-  <span>◷<br>History</span>
-  <span>⚙<br>Settings</span>
+  <span>⌂ Home</span>
+  <span>✦ AI Tools</span>
+  <span>◷ History</span>
+  <span>⚙ Settings</span>
 </nav>
 
 <script>
-function choose(prefix){
-  const q=document.getElementById('question');
-  q.value=prefix;
+const BACKEND_URL =
+  "https://aize-ai-backend.aizebajjar17.workers.dev/";
+
+function choose(prefix) {
+  const q = document.getElementById("question");
+  q.value = prefix;
   q.focus();
+  window.scrollTo({top:0, behavior:"smooth"});
 }
 
-function ask(){
-  const q=document.getElementById('question').value.trim();
-  const box=document.getElementById('reply');
+async function ask() {
+  const question =
+    document.getElementById("question").value.trim();
+  const box = document.getElementById("reply");
 
-  box.style.display='block';
+  box.style.display = "block";
 
-  if(!q){
-    box.textContent='Please type a question first.';
+  if (!question) {
+    box.textContent = "Please type a question first.";
     return;
   }
 
-  box.textContent=
-    'AIZE AI demo\n\n'+
-    'Your question: '+q+
-    '\n\nThis is the app prototype. Real AI answers will work after connecting a secure AI backend.';
+  box.textContent = "AIZE AI is thinking...";
+
+  try {
+    const response = await fetch(BACKEND_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        message: question
+      })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || "AI request failed");
+    }
+
+    box.textContent =
+      data.reply || "No answer received.";
+
+  } catch (error) {
+    box.textContent =
+      "Error: " + error.message;
+  }
 }
 
-document.getElementById('question').addEventListener('keydown',function(e){
-  if(e.key==='Enter' && !e.shiftKey){
-    e.preventDefault();
-    ask();
-  }
-});
+document.getElementById("question")
+  .addEventListener("keydown", function(e) {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      ask();
+    }
+  });
 
-if('serviceWorker' in navigator){
-  navigator.serviceWorker.register('./sw.js').catch(()=>{});
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker
+    .register("./sw.js")
+    .catch(() => {});
 }
 </script>
-
 </body>
 </html>
