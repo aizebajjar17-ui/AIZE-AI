@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AIZE CYBER AI</title>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;background:#050a07;color:#eaffef;
+ font-family:Arial,sans-serif;padding:18px
+}
+header{text-align:center;padding:25px;color:#39ff78}
+header h1{font-size:30px}
+.card{
+ background:#101b13;border:1px solid #245b35;
+ padding:18px;border-radius:15px;margin:12px 0
+}
+button{
+ background:#39ff78;color:#061009;border:0;
+ padding:13px;border-radius:10px;font-weight:bold
+}
+input{
+ width:100%;padding:14px;background:#07100a;
+ color:white;border:1px solid #39ff78;
+ border-radius:10px;margin:10px 0
+}
+#answer{white-space:pre-wrap;line-height:1.6}
+small{color:#9bb6a2}
+</style>
+</head>
+<body>
+<header>
+<h1>✦ AIZE CYBER AI</h1>
+<p>ETHICAL CYBERSECURITY ASSISTANT</p>
+<small>● SYSTEM ONLINE</small>
+</header>
+
+<div class="card">
+<h3>Welcome to AIZE CYBER AI</h3>
+<p>Learn cybersecurity, ethical hacking and digital safety.</p>
+</div>
+
+<div class="card">
+<h3>🛡️ Cyber AI Assistant</h3>
+<input id="question" placeholder="Ask any cyber security question">
+<button onclick="ask()">ASK AI</button>
+<p id="answer">Your answer will appear here.</p>
+</div>
+
+<div class="card">
+<h3>⚡ Cybersecurity Tools</h3>
+<p>🔐 Password Safety</p>
+<p>🌐 Website Security</p>
+<p>🎣 Phishing Awareness</p>
+<p>🐧 Linux Learning</p>
+<p>🐞 Bug Bounty Learning</p>
+<p>🛡️ Ethical Hacking Tutor</p>
+</div>
+
+<div class="card">
+<h3>⌨️ Practice Terminal</h3>
+<input id="cmd" placeholder="Type help">
+<button onclick="terminal()">RUN</button>
+<p id="result"></p>
+</div>
+
+<script>
+function ask(){
+let q=document.getElementById("question").value.toLowerCase();
+let a="I can help you learn cybersecurity safely. Ask about ethical hacking, Linux, website security or password protection.";
+
+if(q.includes("password"))
+a="Use unique strong passwords, a password manager and two-factor authentication. Never share OTPs.";
+
+else if(q.includes("phishing"))
+a="Check suspicious links, sender addresses and unexpected messages. Never enter passwords on unknown websites.";
+
+else if(q.includes("linux"))
+a="Linux basics: pwd, ls, cd, mkdir, cat and man. Practice in your own learning environment.";
+
+else if(q.includes("website"))
+a="Secure your website using HTTPS, updated software, strong admin passwords and regular backups.";
+
+else if(q.includes("ethical hacking"))
+a="Ethical hacking requires permission. Learn networking, Linux, web security and responsible vulnerability reporting.";
+
+document.getElementById("answer").innerText=a;
+}
+
+function terminal(){
+let c=document.getElementById("cmd").value.trim();
+let r="Available commands: help, whoami, clear";
+if(c==="whoami")r="AIZE CYBER AI Practice User";
+if(c==="clear")r="";
+document.getElementById("result").innerText=r;
+}
+</script>
+</body>
+</html>
