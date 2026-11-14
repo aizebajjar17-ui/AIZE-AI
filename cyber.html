@@ -1,39 +1,67 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#050a07">
 <title>AIZE CYBER AI</title>
+
 <style>
 *{box-sizing:border-box}
 body{
  margin:0;background:#050a07;color:#eaffef;
- font-family:Arial,sans-serif;padding:18px
+ font-family:Arial,sans-serif;padding:15px;
 }
-header{text-align:center;padding:25px;color:#39ff78}
-header h1{font-size:30px}
+header{text-align:center;padding:22px 5px}
+header h1{font-size:29px;color:#39ff78;margin:8px}
+header p{color:#a5c9ae}
+.online{color:#39ff78;font-size:12px}
 .card{
  background:#101b13;border:1px solid #245b35;
- padding:18px;border-radius:15px;margin:12px 0
+ padding:17px;border-radius:15px;margin:13px 0;
+ box-shadow:0 5px 18px #0005;
 }
-button{
- background:#39ff78;color:#061009;border:0;
- padding:13px;border-radius:10px;font-weight:bold
-}
-input{
+h3{color:#39ff78;margin-top:0}
+input,textarea{
  width:100%;padding:14px;background:#07100a;
  color:white;border:1px solid #39ff78;
- border-radius:10px;margin:10px 0
+ border-radius:10px;margin:9px 0;
+ font-size:15px;
 }
-#answer{white-space:pre-wrap;line-height:1.6}
+textarea{min-height:90px;resize:vertical}
+button{
+ background:#39ff78;color:#061009;border:0;
+ padding:13px;border-radius:10px;font-weight:bold;
+ cursor:pointer;margin:4px 0;
+}
+button:disabled{opacity:.5}
+.btn{width:100%}
+.tool{
+ background:#122319;color:#eaffef;
+ border:1px solid #245b35;width:100%;
+ text-align:left;padding:15px;margin:5px 0;
+}
+.result{
+ background:#07100a;border:1px solid #245b35;
+ padding:13px;border-radius:10px;
+ white-space:pre-wrap;line-height:1.6;
+ overflow-wrap:anywhere;
+}
+#answer{white-space:pre-wrap;line-height:1.7}
+#history{max-height:300px;overflow:auto}
 small{color:#9bb6a2}
+footer{text-align:center;padding:25px;color:#789780}
 </style>
 </head>
+
 <body>
+
 <header>
 <h1>✦ AIZE CYBER AI</h1>
 <p>ETHICAL CYBERSECURITY ASSISTANT</p>
-<small>● SYSTEM ONLINE</small>
+<div class="online">● SYSTEM ONLINE</div>
+<small>Learn • Protect • Explore</small>
 </header>
 
 <div class="card">
@@ -41,60 +69,328 @@ small{color:#9bb6a2}
 <p>Learn cybersecurity, ethical hacking and digital safety.</p>
 </div>
 
+<!-- AI CHAT -->
 <div class="card">
 <h3>🛡️ Cyber AI Assistant</h3>
-<input id="question" placeholder="Ask any cyber security question">
-<button onclick="ask()">ASK AI</button>
-<p id="answer">Your answer will appear here.</p>
+<div id="history" class="result">Welcome! Ask me a cybersecurity question.</div>
+
+<textarea id="question"
+placeholder="Ask any cybersecurity question..."></textarea>
+
+<button class="btn" id="askBtn" onclick="askAI()">ASK AI ➤</button>
+<small id="status">Ready to help.</small>
 </div>
 
+<!-- TOOLS -->
 <div class="card">
 <h3>⚡ Cybersecurity Tools</h3>
-<p>🔐 Password Safety</p>
-<p>🌐 Website Security</p>
-<p>🎣 Phishing Awareness</p>
-<p>🐧 Linux Learning</p>
-<p>🐞 Bug Bounty Learning</p>
-<p>🛡️ Ethical Hacking Tutor</p>
+
+<button class="tool" onclick="showTool('password')">
+🔐 Password Safety Checker
+</button>
+
+<button class="tool" onclick="showTool('phishing')">
+🎣 Phishing Awareness Checker
+</button>
+
+<button class="tool" onclick="showTool('website')">
+🌐 Website Security Checklist
+</button>
+
+<button class="tool" onclick="showTool('linux')">
+🐧 Linux Learning
+</button>
+
+<button class="tool" onclick="showTool('bug')">
+🐞 Bug Bounty Learning
+</button>
+
+<button class="tool" onclick="showTool('ethical')">
+🛡️ Ethical Hacking Tutor
+</button>
+</div>
+
+<div class="card" id="toolArea">
+<h3>🔧 Select a Tool</h3>
+<p>Choose any cybersecurity tool above.</p>
+<div id="toolResult" class="result">
+Your tool results will appear here.
+</div>
+</div>
+
+<!-- TERMINAL -->
+<div class="card">
+<h3>⌨️ Safe Practice Terminal</h3>
+<small>Educational simulated terminal. No real system commands execute.</small>
+
+<input id="cmd" placeholder="Type help">
+
+<button class="btn" onclick="terminal()">RUN</button>
+
+<div id="terminalResult" class="result">
+AIZE CYBER AI Practice Terminal
+</div>
 </div>
 
 <div class="card">
-<h3>⌨️ Practice Terminal</h3>
-<input id="cmd" placeholder="Type help">
-<button onclick="terminal()">RUN</button>
-<p id="result"></p>
+<h3>📚 Cybersecurity Topics</h3>
+<p>• Network Security</p>
+<p>• Web Security Fundamentals</p>
+<p>• OWASP Top 10</p>
+<p>• Two-Factor Authentication</p>
+<p>• Digital Privacy</p>
+<p>• Responsible Vulnerability Reporting</p>
 </div>
 
+<footer>
+✦ AIZE CYBER AI<br>
+Ethical Cybersecurity Learning Platform<br>
+<small>Stay Safe • Stay Ethical</small>
+</footer>
+
 <script>
-function ask(){
-let q=document.getElementById("question").value.toLowerCase();
-let a="I can help you learn cybersecurity safely. Ask about ethical hacking, Linux, website security or password protection.";
 
-if(q.includes("password"))
-a="Use unique strong passwords, a password manager and two-factor authentication. Never share OTPs.";
+// YOUR CLOUDFLARE WORKER
+const API_URL =
+"https://aize-ai-backend.aizebajjar17.workers.dev/";
 
-else if(q.includes("phishing"))
-a="Check suspicious links, sender addresses and unexpected messages. Never enter passwords on unknown websites.";
+const historyBox=document.getElementById("history");
 
-else if(q.includes("linux"))
-a="Linux basics: pwd, ls, cd, mkdir, cat and man. Practice in your own learning environment.";
-
-else if(q.includes("website"))
-a="Secure your website using HTTPS, updated software, strong admin passwords and regular backups.";
-
-else if(q.includes("ethical hacking"))
-a="Ethical hacking requires permission. Learn networking, Linux, web security and responsible vulnerability reporting.";
-
-document.getElementById("answer").innerText=a;
+function addHistory(role,text){
+ const p=document.createElement("p");
+ const b=document.createElement("b");
+ b.textContent=role+": ";
+ p.appendChild(b);
+ p.appendChild(document.createTextNode(text));
+ historyBox.appendChild(p);
+ historyBox.scrollTop=historyBox.scrollHeight;
 }
 
+// REAL AI CHAT
+async function askAI(){
+
+ const input=document.getElementById("question");
+ const btn=document.getElementById("askBtn");
+ const status=document.getElementById("status");
+
+ const message=input.value.trim();
+
+ if(!message){
+  status.textContent="Please enter your question.";
+  return;
+ }
+
+ btn.disabled=true;
+ btn.textContent="THINKING...";
+ status.textContent="Connecting to AIZE AI...";
+
+ addHistory("YOU",message);
+ input.value="";
+
+ try{
+
+  const response=await fetch(API_URL,{
+   method:"POST",
+   headers:{"Content-Type":"application/json"},
+   body:JSON.stringify({message:message})
+  });
+
+  const data=await response.json();
+
+  if(!response.ok || data.error){
+   throw new Error(data.error || "AI service unavailable.");
+  }
+
+  if(!data.reply){
+   throw new Error("No answer received from AI.");
+  }
+
+  addHistory("AIZE CYBER AI",data.reply);
+  status.textContent="● AI RESPONSE RECEIVED";
+
+ }catch(error){
+
+  addHistory("ERROR",
+   "AI connection failed: "+error.message+
+   "\nPlease check your Cloudflare Worker and AI quota."
+  );
+
+  status.textContent="Connection problem.";
+
+ }finally{
+
+  btn.disabled=false;
+  btn.textContent="ASK AI ➤";
+
+ }
+}
+
+// TOOLS
+function showTool(type){
+
+ const area=document.getElementById("toolResult");
+
+ if(type==="password"){
+
+  area.innerHTML=`
+  <h3>Password Safety</h3>
+  <input id="pass" type="password"
+  placeholder="Enter a test password">
+  <button onclick="checkPassword()">CHECK</button>
+  <div id="passResult"></div>`;
+
+ }
+
+ else if(type==="phishing"){
+
+  area.innerHTML=`
+  <h3>Phishing Awareness</h3>
+  <input id="url" placeholder="Paste a URL to inspect">
+  <button onclick="checkURL()">CHECK LINK</button>
+  <div id="urlResult"></div>`;
+
+ }
+
+ else if(type==="website"){
+
+  area.innerHTML=`
+  <h3>Website Security Checklist</h3>
+  <p>Use this checklist on your own website.</p>
+  <label><input type="checkbox"> HTTPS enabled</label><br>
+  <label><input type="checkbox"> Strong admin password</label><br>
+  <label><input type="checkbox"> Software updated</label><br>
+  <label><input type="checkbox"> Regular backups</label><br>
+  <label><input type="checkbox"> Two-factor authentication</label><br>
+  <label><input type="checkbox"> Security headers configured</label>
+  <p>Review all unchecked items.</p>`;
+
+ }
+
+ else if(type==="linux"){
+
+  area.textContent=
+  "LINUX LEARNING\n\n"+
+  "pwd  - Show current directory\n"+
+  "ls   - List files\n"+
+  "cd   - Change directory\n"+
+  "mkdir - Create a directory\n"+
+  "cat  - Read a text file\n"+
+  "whoami - Show current user\n"+
+  "man  - Read command manual\n\n"+
+  "Practice these commands in your own Linux lab.";
+
+ }
+
+ else if(type==="bug"){
+
+  area.textContent=
+  "BUG BOUNTY LEARNING\n\n"+
+  "1. Learn HTTP and networking.\n"+
+  "2. Study OWASP Top 10.\n"+
+  "3. Learn responsible disclosure.\n"+
+  "4. Practice on intentionally vulnerable labs.\n"+
+  "5. Read program scope and rules.\n"+
+  "6. Report verified findings responsibly.\n\n"+
+  "Never test systems without permission.";
+
+ }
+
+ else if(type==="ethical"){
+
+  area.textContent=
+  "ETHICAL HACKING TUTOR\n\n"+
+  "LEVEL 1: Computer and networking basics\n"+
+  "LEVEL 2: Linux fundamentals\n"+
+  "LEVEL 3: Python programming\n"+
+  "LEVEL 4: Web security\n"+
+  "LEVEL 5: OWASP fundamentals\n"+
+  "LEVEL 6: Authorized lab exercises\n"+
+  "LEVEL 7: Responsible reporting\n\n"+
+  "All practice must be authorized.";
+
+ }
+
+ document.getElementById("toolArea").scrollIntoView({
+  behavior:"smooth",block:"start"
+ });
+}
+
+// PASSWORD CHECKER
+function checkPassword(){
+
+ const p=document.getElementById("pass").value;
+ let score=0;
+
+ if(p.length>=12)score++;
+ if(/[a-z]/.test(p)&&/[A-Z]/.test(p))score++;
+ if(/[0-9]/.test(p))score++;
+ if(/[^A-Za-z0-9]/.test(p))score++;
+
+ let result="Needs improvement";
+
+ if(score>=4)result="Strong";
+ else if(score>=3)result="Good";
+ else if(score>=2)result="Moderate";
+
+ document.getElementById("passResult").textContent=
+ "Estimated strength: "+result+
+ "\nNever reuse passwords or share them with anyone.";
+
+}
+
+// PHISHING AWARENESS
+function checkURL(){
+
+ const value=document.getElementById("url").value.trim();
+ const out=document.getElementById("urlResult");
+
+ try{
+
+  const u=new URL(value);
+
+  let warnings=[];
+
+  if(u.protocol!=="https:")warnings.push("No HTTPS connection.");
+  if(u.username || u.password)warnings.push("Unusual login information in URL.");
+  if(u.hostname.startsWith("xn--"))warnings.push("Internationalized domain; inspect carefully.");
+  if(/@/.test(value))warnings.push("URL contains an @ character.");
+
+  out.textContent=warnings.length
+   ? "CAUTION:\n"+warnings.join("\n")+
+     "\nThis is only a basic URL check. It cannot confirm whether a website is safe."
+   : "No basic warning detected.\nThis does not prove the link is safe.";
+
+ }catch(e){
+
+  out.textContent="Please enter a valid URL.";
+
+ }
+}
+
+// SAFE SIMULATED TERMINAL
 function terminal(){
-let c=document.getElementById("cmd").value.trim();
-let r="Available commands: help, whoami, clear";
-if(c==="whoami")r="AIZE CYBER AI Practice User";
-if(c==="clear")r="";
-document.getElementById("result").innerText=r;
+
+ const c=document.getElementById("cmd").value.trim();
+ const out=document.getElementById("terminalResult");
+
+ const commands={
+  help:"Available commands: help, whoami, pwd, ls, date, version, clear",
+  whoami:"AIZE CYBER AI Practice User",
+  pwd:"/home/aize/practice",
+  ls:"Documents  Learning  Practice",
+  date:new Date().toLocaleString(),
+  version:"AIZE CYBER AI Terminal v2.0"
+ };
+
+ if(c==="clear"){
+  out.textContent="Terminal cleared.";
+ }else{
+  out.textContent=commands[c] ||
+  "Unknown simulated command. Type help.";
+ }
+
 }
+
 </script>
 </body>
 </html>
